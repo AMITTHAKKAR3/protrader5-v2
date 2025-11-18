@@ -1,0 +1,236 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  # User Service
+  - name: user-service
+    url: http://user-service:3001
+    routes:
+      - name: user-routes
+        paths:
+          - /api/v2/users
+          - /api/v2/auth
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+            - PATCH
+          headers:
+            - Authorization
+            - Content-Type
+          exposed_headers:
+            - X-Auth-Token
+          credentials: true
+          max_age: 3600
+
+  # Trading Service
+  - name: trading-service
+    url: http://trading-service:3002
+    routes:
+      - name: trading-routes
+        paths:
+          - /api/v2/trading
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 200
+          policy: local
+      - name: jwt
+        config:
+          key_claim_name: sub
+          secret_is_base64: false
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          headers:
+            - Authorization
+            - Content-Type
+          credentials: true
+
+  # Copy Trading Service
+  - name: copy-trading-service
+    url: http://copy-trading-service:3003
+    routes:
+      - name: copy-trading-routes
+        paths:
+          - /api/v2/copy-trading
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: jwt
+        config:
+          key_claim_name: sub
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          credentials: true
+
+  # Algo Trading Service
+  - name: algo-trading-service
+    url: http://algo-trading-service:3004
+    routes:
+      - name: algo-trading-routes
+        paths:
+          - /api/v2/algo-trading
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: jwt
+        config:
+          key_claim_name: sub
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          credentials: true
+
+  # Charting Service
+  - name: charting-service
+    url: http://charting-service:3005
+    routes:
+      - name: charting-routes
+        paths:
+          - /api/v2/charts
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 300
+          policy: local
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+          credentials: true
+
+  # Risk Management Service
+  - name: risk-management-service
+    url: http://risk-management-service:3006
+    routes:
+      - name: risk-routes
+        paths:
+          - /api/v2/risk
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: jwt
+        config:
+          key_claim_name: sub
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+          credentials: true
+
+  # Notification Service
+  - name: notification-service
+    url: http://notification-service:3007
+    routes:
+      - name: notification-routes
+        paths:
+          - /api/v2/notifications
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 100
+          policy: local
+      - name: jwt
+        config:
+          key_claim_name: sub
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+            - PUT
+            - DELETE
+          credentials: true
+
+  # Payment Service
+  - name: payment-service
+    url: http://payment-service:3008
+    routes:
+      - name: payment-routes
+        paths:
+          - /api/v2/payments
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 50
+          policy: local
+      - name: jwt
+        config:
+          key_claim_name: sub
+      - name: cors
+        config:
+          origins:
+            - "*"
+          methods:
+            - GET
+            - POST
+          credentials: true
+
+# Global Plugins
+plugins:
+  - name: request-id
+    config:
+      header_name: X-Request-ID
+      echo_downstream: true
+  
+  - name: correlation-id
+    config:
+      header_name: X-Correlation-ID
+      echo_downstream: true
+  
+  - name: prometheus
+    config:
+      per_consumer: true
