@@ -1,0 +1,25 @@
+{
+  "name": "protrader5-database",
+  "version": "2.0.0",
+  "description": "Database migrations and seeds for ProTrader5",
+  "scripts": {
+    "migrate:up": "node migrations/001_initial_schema.js up",
+    "migrate:down": "node migrations/001_initial_schema.js down",
+    "seed": "node seeds/001_demo_data.js",
+    "setup": "npm run migrate:up && npm run seed",
+    "reset": "npm run migrate:down && npm run migrate:up && npm run seed"
+  },
+  "keywords": [
+    "mongodb",
+    "migrations",
+    "seeds",
+    "protrader5"
+  ],
+  "author": "ProTrader5 Team",
+  "license": "MIT",
+  "dependencies": {
+    "mongodb": "^6.3.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1"
+  }
+}
