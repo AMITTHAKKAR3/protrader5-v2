@@ -1,0 +1,99 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    cluster: 'protrader5-production'
+    replica: 'prometheus-1'
+
+# Alertmanager configuration
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+# Load rules once and periodically evaluate them
+rule_files:
+  - '/etc/prometheus/rules/*.yml'
+
+# Scrape configurations
+scrape_configs:
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  # User Service
+  - job_name: 'user-service'
+    static_configs:
+      - targets: ['user-service:3001']
+    metrics_path: '/metrics'
+
+  # Trading Service
+  - job_name: 'trading-service'
+    static_configs:
+      - targets: ['trading-service:3002']
+    metrics_path: '/metrics'
+
+  # Copy Trading Service
+  - job_name: 'copy-trading-service'
+    static_configs:
+      - targets: ['copy-trading-service:3003']
+    metrics_path: '/metrics'
+
+  # Algo Trading Service
+  - job_name: 'algo-trading-service'
+    static_configs:
+      - targets: ['algo-trading-service:3004']
+    metrics_path: '/metrics'
+
+  # Charting Service
+  - job_name: 'charting-service'
+    static_configs:
+      - targets: ['charting-service:3005']
+    metrics_path: '/metrics'
+
+  # Risk Management Service
+  - job_name: 'risk-management-service'
+    static_configs:
+      - targets: ['risk-management-service:3006']
+    metrics_path: '/metrics'
+
+  # Notification Service
+  - job_name: 'notification-service'
+    static_configs:
+      - targets: ['notification-service:3007']
+    metrics_path: '/metrics'
+
+  # Payment Service
+  - job_name: 'payment-service'
+    static_configs:
+      - targets: ['payment-service:3008']
+    metrics_path: '/metrics'
+
+  # WebSocket Server
+  - job_name: 'websocket-server'
+    static_configs:
+      - targets: ['websocket-server:3100']
+    metrics_path: '/metrics'
+
+  # API Gateway (Kong)
+  - job_name: 'kong'
+    static_configs:
+      - targets: ['kong:8001']
+    metrics_path: '/metrics'
+
+  # MongoDB Exporter
+  - job_name: 'mongodb'
+    static_configs:
+      - targets: ['mongodb-exporter:9216']
+
+  # Redis Exporter
+  - job_name: 'redis'
+    static_configs:
+      - targets: ['redis-exporter:9121']
+
+  # Node Exporter (System Metrics)
+  - job_name: 'node'
+    static_configs:
+      - targets: ['node-exporter:9100']
