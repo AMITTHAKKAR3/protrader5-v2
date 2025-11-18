@@ -1,0 +1,36 @@
+.
+├── README.md
+├── backend
+│   ├── api-gateway
+│   ├── services
+│   │   ├── algo-trading-service
+│   │   ├── charting-service
+│   │   ├── copy-trading-service
+│   │   │   └── SERVICE_SPEC.md
+│   │   ├── notification-service
+│   │   ├── payment-service
+│   │   ├── risk-management-service
+│   │   ├── trading-service
+│   │   │   └── SERVICE_SPEC.md
+│   │   └── user-service
+│   │       └── SERVICE_SPEC.md
+│   └── shared
+├── desktop
+├── docker-compose.yml
+├── docs
+│   ├── DEPLOYMENT_GUIDE.md
+│   ├── api
+│   │   └── README.md
+│   ├── database_api_architecture.md
+│   ├── development_roadmap.md
+│   ├── implementation_guide.md
+│   └── technical_implementation_plan.md
+├── frontend
+├── infrastructure
+│   └── kubernetes
+│       └── user-service-deployment.yaml
+├── mobile
+├── package.json
+└── project_structure.txt
+
+19 directories, 14 files
